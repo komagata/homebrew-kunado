@@ -1,8 +1,8 @@
 class Kunado < Formula
   desc "Rails development gateway for HTTPS access to multiple apps"
   homepage "https://github.com/komagata/kunado"
-  url "https://github.com/komagata/kunado/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "c4a3364391a0afad3ce67fd5d65eb4fc5c50e6bb6131fd10cf40153f479fb42e"
+  url "https://github.com/komagata/kunado/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "904e45254b10908c3a2e933e9ddd0a2801a24ba630e88c8f561c8214e92b357b"
   license "MIT"
 
   depends_on "docker"
@@ -15,7 +15,10 @@ class Kunado < Formula
     (var/"kunado").mkpath
     (var/"kunado/routes").mkpath
     (var/"kunado/certs").mkpath
-    (var/"kunado/registry.json").write("{}")
+    
+    # Only create registry.json if it doesn't exist
+    registry_file = var/"kunado/registry.json"
+    registry_file.write("{}") unless registry_file.exist?
   end
 
   service do
