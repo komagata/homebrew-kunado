@@ -1,8 +1,8 @@
 class Kunado < Formula
   desc "Rails development gateway for HTTPS access to multiple apps"
   homepage "https://github.com/komagata/kunado"
-  url "https://github.com/komagata/kunado/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "904e45254b10908c3a2e933e9ddd0a2801a24ba630e88c8f561c8214e92b357b"
+  url "https://github.com/komagata/kunado/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "519a35eb9abe5b1f9b904dba8d79e4de98970564d69dc0600d20804b8dff7e21"
   license "MIT"
 
   depends_on "docker"
@@ -31,16 +31,10 @@ class Kunado < Formula
   end
 
   def post_install
-    ohai "Setting up Kunado..."
-    
-    # Try to start proxy to generate certificates
-    system "#{bin}/kunado", "proxy", "up" rescue nil
-    sleep 1
-    system "#{bin}/kunado", "proxy", "down" rescue nil
-    
     ohai ""
     ohai "🚀 Quick Start:"
-    ohai "  brew services start kunado    # Start with auto-start"
+    ohai "  kunado proxy up               # Start proxy (creates certificates)"
+    ohai "  brew services start kunado    # Or start with auto-start"
     ohai "  echo 'eval \"$(kunado hook)\"' >> ~/.zshrc"
     ohai ""
     ohai "Then in your Rails app:"
