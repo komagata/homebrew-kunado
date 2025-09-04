@@ -28,14 +28,30 @@ class Kunado < Formula
   end
 
   def post_install
-    ohai "To start kunado automatically at login:"
-    ohai "  brew services start kunado"
+    ohai "Setting up Kunado..."
+    
+    # Try to start proxy to generate certificates
+    system "#{bin}/kunado", "proxy", "up" rescue nil
+    sleep 1
+    system "#{bin}/kunado", "proxy", "down" rescue nil
+    
     ohai ""
-    ohai "To start kunado manually:"
-    ohai "  kunado proxy up"
-    ohai ""
-    ohai "Don't forget to add the hook to your shell configuration:"
+    ohai "🚀 Quick Start:"
+    ohai "  brew services start kunado    # Start with auto-start"
     ohai "  echo 'eval \"$(kunado hook)\"' >> ~/.zshrc"
+    ohai ""
+    ohai "Then in your Rails app:"
+    ohai "  kunado add"
+    ohai "  rails s"
+  end
+  
+  def caveats
+    <<~EOS
+      Kunado will request your password once to install its certificate.
+      This is only needed the first time you run 'kunado proxy up'.
+      
+      The certificate enables HTTPS without browser warnings.
+    EOS
   end
 
   test do
